@@ -1,0 +1,46 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "containerCount": {
+            "type": "int",
+            "defaultValue": 3
+        }
+    },
+    "functions": [],
+    "variables": {
+        "storageName": "[concat('storage', uniqueString(resourceGroup().id))]",
+        "copy": [
+            {
+                "name": "containerNames",
+                "count": "[parameters('containerCount')]",
+                "input": "[concat(variables('storageName'), '/default/container', copyIndex('containerNames'))]"
+            }
+        ]
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('storageName')]",
+            "location": "[resourceGroup().location]",
+            "kind": "StorageV2",
+            "sku": {
+                "name": "Standard_LRS"
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('containerNames')[copyIndex('copycontainers')]]",
+            "copy": {
+                "name": "copycontainers",
+                "count": "[length(variables('containerNames'))]"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageName'))]"
+            ]
+        }
+    ],
+    "outputs": {}
+}
