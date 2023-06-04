@@ -14,7 +14,7 @@
         "adminPassword": {
             "reference": {
                 "keyVault": {
-                    "id": "/subscriptions/a9f6a84e-aa76-4493-ad46-7335d8bc7ea5/resourceGroups/test-grp/providers/Microsoft.KeyVault/vaults/azkeyvlt13a"
+                    "id": "<ResourceId>"
                 },
                 "secretName": "SQLadminPassword"
             }
