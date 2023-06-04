@@ -1,0 +1,23 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "sqlServerName": {
+            "value": "lirkov-arm-svr-tst14"
+        },
+        "sqlDbName": {
+            "value": "lirkovtestdb"
+        },
+        "adminLogin": {
+            "value": "demousr"
+        },
+        "adminPassword": {
+            "reference": {
+                "keyVault": {
+                    "id": "/subscriptions/a9f6a84e-aa76-4493-ad46-7335d8bc7ea5/resourceGroups/test-grp/providers/Microsoft.KeyVault/vaults/azkeyvlt13a"
+                },
+                "secretName": "SQLadminPassword"
+            }
+        }
+    }
+}
